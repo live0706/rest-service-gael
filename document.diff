@@ -1,0 +1,59 @@
+diff --git a/pom.xml b/pom.xml
+index 4d25308e9a7c66cfd328cc8294267a3f59151e30..4b591a118ee90d095a2851ab1bdcc14dab2f7e66 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -69,5 +69,30 @@
+ 			</plugin>
+ 		</plugins>
+ 	</build>
+-
++	<profiles>
++		<profile>
++			<id>testdb</id>
++			<build>
++				<plugins>
++					<plugin>
++						<artifactId>maven-failsafe-plugin</artifactId>
++						<configuration>
++							<includes>
++								<include>**/*RestIT</include>
++								<include>**/RestITCase</include>
++							</includes>
++						</configuration>
++						<executions>
++							<execution>
++								<goals>
++									<goal>integration-test</goal>
++									<goal>verify</goal>
++								</goals>
++							</execution>
++						</executions>
++					</plugin>
++				</plugins>
++			</build>
++		</profile>
++	</profiles>
+ </project>
+diff --git a/src/test/java/fr/argonaultes/restservice/RestIT.java b/src/test/java/fr/argonaultes/restservice/RestIT.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..9f269088fd6dcf41c9c9be91b99fc84906b7b532
+--- /dev/null
++++ b/src/test/java/fr/argonaultes/restservice/RestIT.java
+@@ -0,0 +1,16 @@
++package fr.argonaultes.restservice;
++
++import org.junit.jupiter.api.Test;
++
++import static org.junit.jupiter.api.Assertions.fail;
++
++public class RestIT {
++
++    @Test
++    void testIfDbExists() {
++        if (System.getenv("DATABASE_URL_TEST").isBlank()) {
++            fail("Missing env variable DATABASE_URL_TEST");
++        }
++
++    }
++}
+\ No newline at end of file
